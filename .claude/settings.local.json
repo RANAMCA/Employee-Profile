@@ -29,7 +29,11 @@
       "Bash(timeout /t 15)",
       "Bash(taskkill /F /PID 20308)",
       "Bash(taskkill //F //PID 20308)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(mvn clean test:*)",
+      "Bash(del \"C:\\Projects\\AI\\Employee-Profile\\src\\test\\java\\com\\newwork\\employeeprofile\\service\\AuthServiceTest.java\")",
+      "Bash(del \"C:\\Projects\\AI\\Employee-Profile\\src\\test\\java\\com\\newwork\\employeeprofile\\service\\AbsenceServiceTest.java\")"
     ],
     "deny": [],
     "ask": []

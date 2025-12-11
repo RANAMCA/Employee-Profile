@@ -1,5 +1,11 @@
 # Employee Profile HR Application
 
+[![CI/CD Pipeline](https://github.com/YOUR_USERNAME/Employee-Profile/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/Employee-Profile/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/YOUR_USERNAME/Employee-Profile/branch/main/graph/badge.svg)](https://codecov.io/gh/YOUR_USERNAME/Employee-Profile)
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A full-stack HR application for managing employee profiles, absence requests, and feedback with AI-enhanced features. Built with Spring Boot 3.x and a modern multi-database architecture.
 
 ## Table of Contents
