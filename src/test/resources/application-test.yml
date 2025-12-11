@@ -1,0 +1,34 @@
+spring:
+  # Test Profile Configuration
+  datasource:
+    url: jdbc:tc:postgresql:15:///testdb
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+  data:
+    mongodb:
+      uri: mongodb://testcontainer:27017/test
+
+  redis:
+    host: localhost
+    port: 6379
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  flyway:
+    enabled: false
+
+# Disable AI service in tests
+app:
+  ai:
+    huggingface:
+      api-key: test-key
+    cache:
+      enabled: false
+
+logging:
+  level:
+    root: WARN
+    com.newwork.employeeprofile: DEBUG

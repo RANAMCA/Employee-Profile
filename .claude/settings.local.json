@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(tree:*)",
+      "Bash(docker --version:*)",
+      "Bash(docker-compose:*)",
+      "Bash(timeout 30 bash:*)",
+      "Bash(mvn clean compile:*)",
+      "Bash(ls:*)",
+      "Bash(mvn spring-boot:run:*)",
+      "Bash(docker exec:*)",
+      "Bash(tee:*)",
+      "Bash(curl:*)",
+      "Bash(docker logs:*)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLm1hbmFnZXJAbmV3d29yay5jb20iLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY0OTcxMDI5LCJleHAiOjE3NjUwNTc0Mjl9.mXPMcrE1qcZGxwIwG8-PWDnbOj8w9mIXzUehkapTYL1L-SpVZiv8t9I1k6CfnbNW_XNH1XFJ7UNGdxX8p2LAbg\")",
+      "Bash(docker ps:*)",
+      "Bash(docker restart:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(mvn test-compile:*)",
+      "Bash(python3:*)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc2NTEyMzEzMiwiZXhwIjoxNzY1MjA5NTMyfQ.n9oSx9pPk50DUY86ez2qZLmlhppG_mq47LAB5toP1YdD_U1oiNjgWBbkRkvsLqLkWLARzBv2HAJSIksE_6mvLw\")",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJuZXd0ZXN0MkB0ZXN0LmNvbSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3NjUxMjM1MTksImV4cCI6MTc2NTIwOTkxOX0.dlwfvlHn7yILAE-ut5Zrz2FLMuYYlgK61m6T5-Y2slt8EME-XO41jpts8l-TwuUMBA3Gt5NZIyz5SynVEeDSfg\")",
+      "Bash(echo:*)",
+      "Bash(cat:*)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwiZW1haWwiOiJ0ZXN0bWFuYWdlckB0ZXN0LmNvbSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3NjUxMjQzOTEsImV4cCI6MTc2NTIxMDc5MX0.8IlrcJ43R3Dfh7PCn1DeeDjWfZ977p2Cga_df1W7wMoAqshz2WbyRb_P-Qg0xM7REDHKrNlC00ztXJ5ZLVu3NQ\")",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiZW1haWwiOiJmaW5hbHRlc3RAdGVzdC5jb20iLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY1MTI0NjA2LCJleHAiOjE3NjUyMTEwMDZ9.TIbMR2LOt0Fcmv09_bul7oowk3xDyJm4RvQ12iGUogzki-ox2VLDHUG-jFR_Rq2kFPILNzv60YybWGxUTya_Bw\")",
+      "Bash(timeout /t 15)",
+      "Bash(taskkill /F /PID 20308)",
+      "Bash(taskkill //F //PID 20308)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

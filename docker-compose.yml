@@ -1,0 +1,95 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: employee-profile-postgres
+    environment:
+      POSTGRES_DB: employee_profile
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - employee-profile-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: employee-profile-mongodb
+    environment:
+      MONGO_INITDB_DATABASE: employee_profile
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - employee-profile-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: employee-profile-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - employee-profile-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: employee-profile-app
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/employee_profile
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MONGODB_URI: mongodb://mongodb:27017/employee_profile
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      HUGGINGFACE_API_KEY: ${HUGGINGFACE_API_KEY:-}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - employee-profile-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  mongodb_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  employee-profile-network:
+    driver: bridge

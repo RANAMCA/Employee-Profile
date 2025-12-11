@@ -1,0 +1,27 @@
+spring:
+  # Production Profile Configuration
+  datasource:
+    url: jdbc:postgresql://postgres:5432/employee_profile
+    username: postgres
+    password: postgres
+
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/employee_profile
+
+  redis:
+    host: redis
+    port: 6379
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+logging:
+  level:
+    root: INFO
+    com.newwork.employeeprofile: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO

@@ -1,0 +1,25 @@
+spring:
+  # Development Profile Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5433/employee_profile
+    username: postgres
+    password: postgres
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.newwork.employeeprofile: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
