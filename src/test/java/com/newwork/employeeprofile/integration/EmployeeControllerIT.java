@@ -31,15 +31,22 @@ class EmployeeControllerIT extends BaseIntegrationTest {
     private String managerToken;
     private String employeeToken;
     private Long employeeId;
+    private String managerEmail;
+    private String employeeEmail;
 
     @BeforeEach
     void setup() throws Exception {
+        // Use unique emails for each test to avoid duplicate email conflicts
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        this.managerEmail = "manager." + timestamp + "@test.com";
+        this.employeeEmail = "employee." + timestamp + "@test.com";
+
         // Create manager user and manually set role via SQL
         // (Cannot use /promote endpoint as it requires EMPLOYEE:UPDATE:ALL permission)
         CreateEmployeeRequest managerRequest = CreateEmployeeRequest.builder()
                 .firstName("Manager")
                 .lastName("Test")
-                .email("manager.test@test.com")
+                .email(managerEmail)
                 .password("password123")
                 .departmentId(2L) // HR department
                 .build();
@@ -61,9 +68,10 @@ class EmployeeControllerIT extends BaseIntegrationTest {
         jdbcTemplate.update("UPDATE employees SET role_id = 2 WHERE id = ?", managerId);
 
         // Login to get token with manager permissions
+        String loginJson = String.format("{\"email\":\"%s\",\"password\":\"password123\"}", managerEmail);
         MvcResult managerLoginResult = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"manager.test@test.com\",\"password\":\"password123\"}"))
+                        .content(loginJson))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -77,7 +85,7 @@ class EmployeeControllerIT extends BaseIntegrationTest {
         CreateEmployeeRequest employeeRequest = CreateEmployeeRequest.builder()
                 .firstName("Employee")
                 .lastName("Test")
-                .email("employee.test@test.com")
+                .email(employeeEmail)
                 .password("password123")
                 .departmentId(1L) // Engineering department
                 .build();
@@ -116,7 +124,7 @@ class EmployeeControllerIT extends BaseIntegrationTest {
         mockMvc.perform(get("/api/employees/" + employeeId)
                         .header("Authorization", "Bearer " + employeeToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value("employee.test@test.com"));
+                .andExpect(jsonPath("$.email").value(employeeEmail));
     }
 
     @Test
