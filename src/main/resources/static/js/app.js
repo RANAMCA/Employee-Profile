@@ -340,7 +340,7 @@ window.onclick = function(event) {
 
 // Load feedback
 async function loadFeedback() {
-    const feedbackContent = document.getElementById('feedbackContent');
+    const feedbackList = document.getElementById('feedbackList');
     const userRole = localStorage.getItem('userRole');
     const managerControls = document.getElementById('managerFeedbackControls');
 
@@ -387,11 +387,11 @@ async function loadFeedback() {
         } else if (response.status === 401) {
             handleUnauthorized();
         } else {
-            feedbackContent.innerHTML = '<div class="error-message show">Failed to load feedback</div>';
+            feedbackList.innerHTML = '<div class="error-message show">Failed to load feedback</div>';
         }
     } catch (error) {
         console.error('Error loading feedback:', error);
-        feedbackContent.innerHTML = '<div class="error-message show">An error occurred while loading feedback</div>';
+        feedbackList.innerHTML = '<div class="error-message show">An error occurred while loading feedback</div>';
     }
 }
 
@@ -403,10 +403,10 @@ function updateFeedbackStats() {
 
 // Display feedback list
 function displayFeedback(feedbacks) {
-    const feedbackContent = document.getElementById('feedbackContent');
+    const feedbackList = document.getElementById('feedbackList');
 
     if (feedbacks.length === 0) {
-        feedbackContent.innerHTML = `
+        feedbackList.innerHTML = `
             <div class="feedback-empty">
                 <div class="feedback-empty-icon">💬</div>
                 <p>No feedback yet</p>
@@ -439,7 +439,7 @@ function displayFeedback(feedbacks) {
         `;
     }).join('');
 
-    feedbackContent.innerHTML = html;
+    feedbackList.innerHTML = html;
 }
 
 // Open give feedback modal
