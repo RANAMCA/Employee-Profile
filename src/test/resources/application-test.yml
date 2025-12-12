@@ -17,11 +17,12 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: true
 
   flyway:
-    enabled: false
+    enabled: true
+    clean-on-validation-error: true
 
 # Disable AI service in tests
 app:
