@@ -25,13 +25,17 @@ class EmployeeControllerIT extends BaseIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
+
     private String managerToken;
     private String employeeToken;
     private Long employeeId;
 
     @BeforeEach
     void setup() throws Exception {
-        // Create manager user (initially as EMPLOYEE, then promote)
+        // Create manager user and manually set role via SQL
+        // (Cannot use /promote endpoint as it requires EMPLOYEE:UPDATE:ALL permission)
         CreateEmployeeRequest managerRequest = CreateEmployeeRequest.builder()
                 .firstName("Manager")
                 .lastName("Test")
@@ -52,19 +56,11 @@ class EmployeeControllerIT extends BaseIntegrationTest {
         );
         Long managerId = managerAuth.getEmployeeId();
 
-        // Promote to manager
-        PromoteToManagerRequest promoteRequest = PromoteToManagerRequest.builder()
-                .employeeId(managerId)
-                .departmentId(2L) // HR department
-                .build();
+        // Directly update role to MANAGER in database (test-only workaround)
+        // In production, only existing managers can promote users via /promote endpoint
+        jdbcTemplate.update("UPDATE employees SET role_id = 2 WHERE id = ?", managerId);
 
-        mockMvc.perform(post("/api/employees/promote")
-                        .header("Authorization", "Bearer " + managerAuth.getToken())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(promoteRequest)))
-                .andExpect(status().isOk());
-
-        // Login again to get updated token with manager permissions
+        // Login to get token with manager permissions
         MvcResult managerLoginResult = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"manager.test@test.com\",\"password\":\"password123\"}"))

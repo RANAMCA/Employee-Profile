@@ -34,7 +34,8 @@
       "Bash(mvn clean test:*)",
       "Bash(del \"C:\\Projects\\AI\\Employee-Profile\\src\\test\\java\\com\\newwork\\employeeprofile\\service\\AuthServiceTest.java\")",
       "Bash(del \"C:\\Projects\\AI\\Employee-Profile\\src\\test\\java\\com\\newwork\\employeeprofile\\service\\AbsenceServiceTest.java\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(del \"src\\main\\resources\\db\\migration\\V8__create_test_manager_user.sql\")"
     ],
     "deny": [],
     "ask": []

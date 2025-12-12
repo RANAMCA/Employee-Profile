@@ -34,11 +34,7 @@ public class AuthService {
         log.info("Registering new employee with email: {}", request.getEmail());
 
         if (employeeRepository.existsByEmail(request.getEmail())) {
-            return AuthResponse.builder()
-                    .success(false)
-                    .message("Email already in use")
-                    .build();
-            //throw new BadRequestException("Email already in use");
+            throw new BadRequestException("Email already in use");
         }
 
         Employee employee = employeeMapper.toEntity(request);
