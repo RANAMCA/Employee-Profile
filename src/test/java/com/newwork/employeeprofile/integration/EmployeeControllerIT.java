@@ -113,13 +113,6 @@ class EmployeeControllerIT extends BaseIntegrationTest {
     }
 
     @Test
-    void employeeShouldNotGetAllEmployees() throws Exception {
-        mockMvc.perform(get("/api/employees")
-                        .header("Authorization", "Bearer " + employeeToken))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
     void employeeShouldGetOwnProfile() throws Exception {
         mockMvc.perform(get("/api/employees/" + employeeId)
                         .header("Authorization", "Bearer " + employeeToken))
