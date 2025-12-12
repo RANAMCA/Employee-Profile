@@ -2,8 +2,11 @@
 -- EMPLOYEE:UPDATE:ALL - allows manager to update any employee (promote to manager, etc.)
 -- EMPLOYEE:READ:ALL - allows manager to access employee sensitive data (phone, dateOfBirth, hireDate)
 
+-- Use INSERT ... ON CONFLICT to make migration idempotent (safe for reruns)
 INSERT INTO role_permissions (role_id, permission_id) VALUES
-(2, (SELECT id FROM permissions WHERE name = 'EMPLOYEE:UPDATE:ALL'));
+(2, (SELECT id FROM permissions WHERE name = 'EMPLOYEE:UPDATE:ALL'))
+ON CONFLICT (role_id, permission_id) DO NOTHING;
 
 INSERT INTO role_permissions (role_id, permission_id) VALUES
-(2, (SELECT id FROM permissions WHERE name = 'EMPLOYEE:READ:ALL'));
+(2, (SELECT id FROM permissions WHERE name = 'EMPLOYEE:READ:ALL'))
+ON CONFLICT (role_id, permission_id) DO NOTHING;
