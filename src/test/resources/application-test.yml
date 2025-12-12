@@ -1,16 +1,19 @@
 spring:
   # Test Profile Configuration
+  # Uses environment variables in CI, falls back to Testcontainers for local development
   datasource:
-    url: jdbc:tc:postgresql:15:///testdb
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: ${SPRING_DATASOURCE_URL:jdbc:tc:postgresql:15:///testdb}
+    username: ${SPRING_DATASOURCE_USERNAME:test}
+    password: ${SPRING_DATASOURCE_PASSWORD:test}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER:org.postgresql.Driver}
 
   data:
     mongodb:
-      uri: mongodb://testcontainer:27017/test
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/test}
 
   redis:
-    host: localhost
-    port: 6379
+    host: ${SPRING_DATA_REDIS_HOST:localhost}
+    port: ${SPRING_DATA_REDIS_PORT:6379}
 
   jpa:
     hibernate:

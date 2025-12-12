@@ -15,38 +15,48 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 public abstract class BaseIntegrationTest {
 
-    static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            DockerImageName.parse("postgres:15-alpine"))
-            .withDatabaseName("testdb")
-            .withUsername("test")
-            .withPassword("test");
+    // Only start Testcontainers if not running in CI (CI uses service containers)
+    private static final boolean IS_CI = System.getenv("CI") != null || System.getenv("GITHUB_ACTIONS") != null;
 
-    static final MongoDBContainer mongodb = new MongoDBContainer(
-            DockerImageName.parse("mongo:7.0"))
-            .withExposedPorts(27017);
-
-    static final GenericContainer<?> redis = new GenericContainer<>(
-            DockerImageName.parse("redis:7-alpine"))
-            .withExposedPorts(6379);
+    static PostgreSQLContainer<?> postgres;
+    static MongoDBContainer mongodb;
+    static GenericContainer<?> redis;
 
     static {
-        postgres.start();
-        mongodb.start();
-        redis.start();
+        if (!IS_CI) {
+            // Local development: start Testcontainers
+            postgres = new PostgreSQLContainer<>(
+                    DockerImageName.parse("postgres:15-alpine"))
+                    .withDatabaseName("testdb")
+                    .withUsername("test")
+                    .withPassword("test");
+
+            mongodb = new MongoDBContainer(
+                    DockerImageName.parse("mongo:7.0"))
+                    .withExposedPorts(27017);
+
+            redis = new GenericContainer<>(
+                    DockerImageName.parse("redis:7-alpine"))
+                    .withExposedPorts(6379);
+
+            postgres.start();
+            mongodb.start();
+            redis.start();
+        }
+        // In CI: containers are provided by GitHub Actions service containers
     }
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
-        // PostgreSQL properties
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-
-        // MongoDB properties
-        registry.add("spring.data.mongodb.uri", mongodb::getReplicaSetUrl);
-
-        // Redis properties
-        registry.add("spring.redis.host", redis::getHost);
-        registry.add("spring.redis.port", () -> redis.getMappedPort(6379));
+        if (!IS_CI && postgres != null) {
+            // Local: use Testcontainers
+            registry.add("spring.datasource.url", postgres::getJdbcUrl);
+            registry.add("spring.datasource.username", postgres::getUsername);
+            registry.add("spring.datasource.password", postgres::getPassword);
+            registry.add("spring.data.mongodb.uri", mongodb::getReplicaSetUrl);
+            registry.add("spring.redis.host", redis::getHost);
+            registry.add("spring.redis.port", () -> redis.getMappedPort(6379));
+        }
+        // In CI: environment variables from workflow are used via application-test.yml
     }
 }

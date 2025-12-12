@@ -71,10 +71,12 @@ jobs:
 
     - name: Run tests with coverage
       env:
+        CI: true
         SPRING_PROFILES_ACTIVE: test
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/employee_profile_test
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: postgres
+        SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
         SPRING_DATA_MONGODB_URI: mongodb://admin:admin123@localhost:27017/employee_profile_test?authSource=admin
         SPRING_DATA_REDIS_HOST: localhost
         SPRING_DATA_REDIS_PORT: 6379
@@ -273,10 +275,12 @@ jobs:
 
     - name: Run integration tests
       env:
+        CI: true
         SPRING_PROFILES_ACTIVE: test
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/employee_profile_test
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: postgres
+        SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
         SPRING_DATA_MONGODB_URI: mongodb://admin:admin123@localhost:27017/employee_profile_test?authSource=admin
         SPRING_DATA_REDIS_HOST: localhost
         SPRING_DATA_REDIS_PORT: 6379
